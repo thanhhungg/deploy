@@ -7,3 +7,9 @@ class users(models.Model):
     lc_number = models.CharField(max_length=40)
     age = models.IntegerField()
     email = models.EmailField()
+
+class parking_lot(models.Model):
+    name = models.CharField(max_length=40)
+    status = models.IntegerField()
+
+
