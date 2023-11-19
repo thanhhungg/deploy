@@ -1,1 +1,1 @@
-web: gunicorn main_server.wsgi:application --log-file -
+web: gunicorn -b 0.0.0.0:8000 main_server.wsgi:application --log-file -
