@@ -42,10 +42,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# CHANNEL_LAYERS = {
+#     'default':{
+#         'BACKEND':'channels.layers.InMemoryChannelLayer'
+#     }
+# }
+
 CHANNEL_LAYERS = {
-    'default':{
-        'BACKEND':'channels.layers.InMemoryChannelLayer'
-    }
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+    },
 }
 
 MIDDLEWARE = [
@@ -76,7 +85,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'main_server.wsgi.application'
+WSGI_APPLICATION = 'main_server.wsgi.application'
 ASGI_APPLICATION = 'main_server.asgi.application'
 
 
