@@ -8,4 +8,5 @@ urlpatterns = [
     path('user_login/', views.LoginView.as_view(), name='login_view'),
     # path('receive/', views.receive_sensor_data, name="receive"),
     path('update_parkinglot/', views.update_parkinglot.as_view(), name="update_parkinglot"),
+    path('manage/', views.manage, name='manage'),
 ]

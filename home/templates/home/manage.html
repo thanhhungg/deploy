@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Realtime Parking Lot Status</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            width: 500px;
+            height: 300px;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+
+        .item {
+            width: calc(33.33% - 20px);
+            height: calc(50% - 20px);
+            background-color: #f2f2f2;
+            border: 1px solid #999;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item" id = "park1">1</div>
+        <div class="item" id = "park2">2</div>
+        <div class="item" id = "park3">3</div>
+        <div class="item" id = "park4">4</div>
+        <div class="item" id = "park5">5</div>
+        <div class="item" id = "park6">6</div>
+    </div>
+    <h1>Parking Lot Status</h1>
+    <ul id="parking-lot-status"></ul>
+
+    <script>
+        $(document).ready(function() {
+            const groupid = 'parkingLot';
+            const socket = new WebSocket(
+<!--                'ws://' + window.location.host + '/ws/sc/' + groupid + '/'-->
+                'ws://' + window.location.host + '/ws/sc/' + 'parkingLot' + '/'
+            );
+
+            socket.onopen = function(event) {
+                console.log('Websocket connected:', event);
+                var message = 'Hello, server!';
+                socket.send(message);
+            }
+
+            socket.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+<!--                const data_receive = JSON.parse(event.data);-->
+<!--                console.log("Received data:");-->
+<!--                console.log(data_receive);-->
+<!--                const data = data_receive['text'];-->
+                console.log(data);
+
+                // Cập nhật trạng thái của bãi đỗ xe trên trang HTML
+                const parkingLotStatus = $("#parking-lot-status");
+                parkingLotStatus.empty();
+
+                for (let i = 0; i < data.length; i++) {
+                    const parkingLot = data[i];
+                    const id = "#park" + (i+1);
+                    if(parkingLot.status == 0) {
+                        $(id).css("background-color", "red");
+                    }else {
+                        $(id).css("background-color", "#51cb5a");
+                    }
+<!--                    const li = $("<li></li>").text(parkingLot.name + " - " + parkingLot.status);-->
+<!--                    parkingLotStatus.append(li);-->
+                }
+            };
+            socket.addEventListener('close', (event) => {
+                console.log('WebSocket connection closed:', event);
+            });
+
+            socket.addEventListener('error', (event) => {
+                console.error('WebSocket error:', event);
+            });
+        });
+    </script>
+</body>
+</html>
