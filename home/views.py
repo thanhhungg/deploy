@@ -42,7 +42,7 @@ class LoginView(APIView):
 
 class update_parkinglot(APIView):
     def post(self, request, format=None):
-        name = request.data.get('name')
+        name = request.data.get('name') 
         status = request.data.get('status')
         # return HttpResponse("OK")
         try:
