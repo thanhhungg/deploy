@@ -43,7 +43,7 @@
             const groupid = 'parkingLot';
             const socket = new WebSocket(
 <!--                'ws://' + window.location.host + '/ws/sc/' + groupid + '/'-->
-                'ws://' + window.location.host + '/ws/sc/' + 'parkingLot' + '/'
+                'wss://' + window.location.host + '/ws/sc/' + 'parkingLot' + '/'
             );
 
             socket.onopen = function(event) {
